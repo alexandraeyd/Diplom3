@@ -1,11 +1,17 @@
-package stellar.burger.tests;
+package stellar.burger.tests.personalAccount;
 
+import io.qameta.allure.Step;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import stellar.burger.AllTestsInit;
+import stellar.burgers.data.UserRegistrationData;
 import stellar.burgers.helpers.RandomValuesHelper;
 import stellar.burgers.pages.*;
 
-import static com.codeborne.selenide.Selenide.page;
+import static com.codeborne.selenide.Selenide.*;
 
 //Переход в личный кабинет
 //        Проверь переход по клику на «Личный кабинет».
@@ -18,25 +24,26 @@ import static com.codeborne.selenide.Selenide.page;
 
 public class PersonalAccountTests extends AllTestsInit {
 
+    private Log log = LogFactory.getLog(PersonalAccountTests.class);
+
+    UserRegistrationData userWithValidRegistrationInfo = new UserRegistrationData(
+            "Анна",
+            "anna@yandex.ru" + RandomValuesHelper.generateRandomValueToMakeEmailUnique(),
+            "AnnasRegistrationPassword");
+
+    @BeforeEach
+    public void registerUser(){
+        registerUserAndLoginHimAfterAll(userWithValidRegistrationInfo);
+    }
+
     @Test
     public void verifyPersonalAccountForRegisteredUser() {
-        UserRegistrationData userWithValidRegistrationInfo = new UserRegistrationData(
-                "Анна",
-                "anna@yandex.ru" + RandomValuesHelper.generateRandomValueToMakeEmailUnique(),
-                "AnnasRegistrationPassword");
-        registerUserAndLoginHimAfterAll(userWithValidRegistrationInfo);
         PersonalAccountPage personalAccountPage = page(PersonalAccountPage.class);
         personalAccountPage.checkOpened(personalAccountPage.URL);
     }
 
     @Test
     public void checkConstructorLinkFollowsToHomePageTest() {
-        UserRegistrationData userWithValidRegistrationInfo = new UserRegistrationData(
-                "Рита",
-                "rita@yandex.ru" + RandomValuesHelper.generateRandomValueToMakeEmailUnique(),
-                "RitasRegistrationPassword");
-        registerUserAndLoginHimAfterAll(userWithValidRegistrationInfo);
-        PersonalAccountPage personalAccountPage = page(PersonalAccountPage.class);
         HeaderSection header = page(HeaderSection.class);
         header.builderLink.click();
         HomePage homePage = page(HomePage.class);
@@ -45,17 +52,25 @@ public class PersonalAccountTests extends AllTestsInit {
 
     @Test
     public void checkExitFromPersonalAccountTest() {
-        UserRegistrationData userWithValidRegistrationInfo = new UserRegistrationData(
-                "Вера",
-                "vera@yandex.ru" + RandomValuesHelper.generateRandomValueToMakeEmailUnique(),
-                "VerasRegistrationPassword");
-        registerUserAndLoginHimAfterAll(userWithValidRegistrationInfo);
-        PersonalAccountPage personalAccountPage = page(PersonalAccountPage.class);
-        personalAccountPage.exitButton.click();
+        logOutFromCurrentUser();
         LoginPage loginPage = page(LoginPage.class);
         loginPage.checkOpened(loginPage.URL);
     }
 
+    @Step
+    public void logOutFromCurrentUser() {
+        HeaderSection header = page(HeaderSection.class);
+        header.personalAccountLink.click();
+        PersonalAccountPage personalAccountPage = page(PersonalAccountPage.class);
+        if(personalAccountPage.isOpened(PersonalAccountPage.URL)) {
+            personalAccountPage.checkOpened(personalAccountPage.URL);
+            personalAccountPage.exitButton.click();
+        } else {
+            log.info("There were no logged in user into the account.");
+        }
+    }
+
+    @Step
     public void registerUserAndLoginHimAfterAll(UserRegistrationData userWithValidRegistrationInfo) {
         HomePage homePage = page(HomePage.class);
         homePage.registerUser(userWithValidRegistrationInfo);
@@ -64,5 +79,12 @@ public class PersonalAccountTests extends AllTestsInit {
         loginPage.loginAsUser(userWithValidRegistrationInfo.emailAddress, userWithValidRegistrationInfo.password);
         HeaderSection header = page(HeaderSection.class);
         header.personalAccountLink.click();
+    }
+
+    @AfterEach
+    public void logOutCurrentUserIfLoggedIn() {
+        logOutFromCurrentUser();
+        //Put object for the Garbage collector
+        userWithValidRegistrationInfo = null;
     }
 }

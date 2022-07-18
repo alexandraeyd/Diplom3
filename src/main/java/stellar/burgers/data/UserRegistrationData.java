@@ -1,4 +1,4 @@
-package stellar.burgers.pages;
+package stellar.burgers.data;
 
 public class UserRegistrationData {
 

@@ -1,12 +1,11 @@
 package stellar.burgers.pages;
 
-import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import stellar.burgers.WebPageCommon;
-
-import static com.codeborne.selenide.Selenide.page;
+import stellar.burgers.data.UserLoginData;
 
 public class LoginPage extends WebPageCommon {
 
@@ -31,12 +30,14 @@ public class LoginPage extends WebPageCommon {
     @FindBy(how = How.XPATH, using = "//a[contains(@href, 'forgot-password')]")
     public SelenideElement forgotPasswordLink;
 
+    @Step
     public void loginAsUser(UserLoginData user){
         emailInput.setValue(user.emailAddress);
         passwordInput.setValue(user.password);
         submitButton.click();
     }
 
+    @Step
     public void loginAsUser(String email, String password){
         emailInput.setValue(email);
         passwordInput.setValue(password);

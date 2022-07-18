@@ -1,4 +1,4 @@
-package stellar.burger.tests;
+package stellar.burger.tests.loginLogout;
 
 import com.codeborne.selenide.SelenideElement;
 import org.junit.jupiter.api.Test;

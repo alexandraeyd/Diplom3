@@ -1,9 +1,11 @@
 package stellar.burgers.pages;
 
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import stellar.burgers.WebPageCommon;
+import stellar.burgers.data.UserRegistrationData;
 
 public class RegistrationPage extends WebPageCommon {
 
@@ -33,14 +35,14 @@ public class RegistrationPage extends WebPageCommon {
     @FindBy(how = How.CLASS_NAME, using = "Auth_link__1fOlj")
     public SelenideElement enterButton;
 
-
-
+    @Step
     public void fillUserRegistrationForm(UserRegistrationData user) {
         nameInput.setValue(user.nameOfUser);
         emailInput.setValue(user.emailAddress);
         passwordInput.setValue(user.password);
     }
 
+    @Step
     public void fillAndSubmitUserRegistrationFrom(UserRegistrationData userRegistrationData){
         fillUserRegistrationForm(userRegistrationData);
         registerButton.click();

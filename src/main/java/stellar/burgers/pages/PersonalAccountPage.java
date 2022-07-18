@@ -17,10 +17,4 @@ public class PersonalAccountPage extends WebPageCommon {
 
     @FindBy(how = How.XPATH, using = "//*[@class = 'Account_listItem__35dAP']//button[contains(text(), 'Выход')]")
     public SelenideElement exitButton;
-
-
-
-
-
-
 }

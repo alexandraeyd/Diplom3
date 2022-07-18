@@ -1,9 +1,11 @@
-package stellar.burger.tests;
+package stellar.burger.tests.loginLogout;
 
+import io.qameta.allure.Step;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import stellar.burger.AllTestsInit;
+import stellar.burgers.data.UserRegistrationData;
 import stellar.burgers.pages.*;
 
 import static com.codeborne.selenide.Selenide.*;
@@ -19,9 +21,6 @@ import static com.codeborne.selenide.WebDriverConditions.url;
 public class LoginAsAlreadyCreatedUserTests extends AllTestsInit {
     private static UserRegistrationData userWithValidRegistrationInfo = new UserRegistrationData(
             "Нина", "nina@yandex.ru", "NinasRegistrationPassword");
-
-
-    static LoginPage loginPage = null;
 
     @BeforeEach
     public void loginAsValidUser() {
@@ -66,6 +65,7 @@ public class LoginAsAlreadyCreatedUserTests extends AllTestsInit {
         loginWithValidDataAndVerifySuccessOfGettingPersonalAccountPage();
     }
 
+    @Step
     public void loginWithValidDataAndVerifySuccessOfGettingPersonalAccountPage() {
         LoginPage loginPage = page(LoginPage.class);
         loginPage.loginAsUser(userWithValidRegistrationInfo.emailAddress, userWithValidRegistrationInfo.password);
@@ -79,6 +79,8 @@ public class LoginAsAlreadyCreatedUserTests extends AllTestsInit {
     public void logoutFromValidUser() {
         PersonalAccountPage personalAccountPage = page(PersonalAccountPage.class);
         personalAccountPage.exitButton.click();
+        //Put object for the Garbage collector
+        userWithValidRegistrationInfo = null;
     }
 
 }

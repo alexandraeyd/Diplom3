@@ -1,9 +1,5 @@
 package stellar.burgers;
 
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.How;
-import stellar.burgers.pages.HeaderSection;
-
 import static com.codeborne.selenide.Selenide.webdriver;
 import static com.codeborne.selenide.WebDriverConditions.url;
 
@@ -13,5 +9,9 @@ public class WebPageCommon {
 
     public void checkOpened(String url){
         webdriver().shouldHave(url(url));
+    }
+
+    public boolean isOpened(String url){
+        return webdriver().object().getCurrentUrl().equals(url);
     }
 }

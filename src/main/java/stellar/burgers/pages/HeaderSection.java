@@ -1,7 +1,6 @@
 package stellar.burgers.pages;
 
 import com.codeborne.selenide.SelenideElement;
-import com.codeborne.selenide.impl.SelenidePageFactory;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
