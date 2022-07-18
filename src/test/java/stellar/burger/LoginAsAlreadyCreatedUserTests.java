@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import stellar.burger.AllTestsInit;
 import stellar.burgers.data.UserRegistrationData;
+import stellar.burgers.helpers.RandomValuesHelper;
 import stellar.burgers.pages.*;
 
 import static com.codeborne.selenide.Selenide.*;
@@ -19,8 +20,9 @@ import static com.codeborne.selenide.WebDriverConditions.url;
 //        вход через кнопку в форме восстановления пароля.
 
 public class LoginAsAlreadyCreatedUserTests extends AllTestsInit {
-    private static UserRegistrationData userWithValidRegistrationInfo = new UserRegistrationData(
-            "Нина", "nina@yandex.ru", "NinasRegistrationPassword");
+    public UserRegistrationData userWithValidRegistrationInfo = new UserRegistrationData(
+            "Нина", "nina@yandex.ru" + RandomValuesHelper.generateRandomValueToMakeEmailUnique(),
+            "NinasRegistrationPassword");
 
     @BeforeEach
     public void loginAsValidUser() {
@@ -33,14 +35,14 @@ public class LoginAsAlreadyCreatedUserTests extends AllTestsInit {
         homePage = open(HomePage.URL, HomePage.class);
         HeaderSection header = page(HeaderSection.class);
         header.personalAccountLink.click();
-        loginWithValidDataAndVerifySuccessOfGettingPersonalAccountPage();
+        loginWithValidDataAndVerifySuccessOfGettingPersonalAccountPage(userWithValidRegistrationInfo);
     }
 
     @Test
     public void loginByEnterToAccountButtonOnHomePageTest(){
         homePage = open(HomePage.URL, HomePage.class);
         homePage.enterToAccountButton.click();
-        loginWithValidDataAndVerifySuccessOfGettingPersonalAccountPage();
+        loginWithValidDataAndVerifySuccessOfGettingPersonalAccountPage(userWithValidRegistrationInfo);
     }
 
     @Test
@@ -51,7 +53,7 @@ public class LoginAsAlreadyCreatedUserTests extends AllTestsInit {
         loginPage.registrationLink.click();
         RegistrationPage registerPage = page(RegistrationPage.class);
         registerPage.enterButton.click();
-        loginWithValidDataAndVerifySuccessOfGettingPersonalAccountPage();
+        loginWithValidDataAndVerifySuccessOfGettingPersonalAccountPage(userWithValidRegistrationInfo);
     }
 
     @Test
@@ -62,11 +64,11 @@ public class LoginAsAlreadyCreatedUserTests extends AllTestsInit {
         loginPage.forgotPasswordLink.click();
         ForgotPasswordPage forgotPasswordPage = page(ForgotPasswordPage.class);
         forgotPasswordPage.enterButton.click();
-        loginWithValidDataAndVerifySuccessOfGettingPersonalAccountPage();
+        loginWithValidDataAndVerifySuccessOfGettingPersonalAccountPage(userWithValidRegistrationInfo);
     }
 
     @Step
-    public void loginWithValidDataAndVerifySuccessOfGettingPersonalAccountPage() {
+    public void loginWithValidDataAndVerifySuccessOfGettingPersonalAccountPage(UserRegistrationData userWithValidRegistrationInfo) {
         LoginPage loginPage = page(LoginPage.class);
         loginPage.loginAsUser(userWithValidRegistrationInfo.emailAddress, userWithValidRegistrationInfo.password);
         HeaderSection header = page(HeaderSection.class);
