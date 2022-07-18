@@ -1,4 +1,4 @@
-package stellar.burger.tests.loginLogout;
+package stellar.burger;
 
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.AfterEach;

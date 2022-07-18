@@ -1,4 +1,4 @@
-package stellar.burger.tests.homePage;
+package stellar.burger;
 
 import org.junit.jupiter.api.Test;
 import stellar.burger.AllTestsInit;

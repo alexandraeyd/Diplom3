@@ -1,4 +1,4 @@
-package stellar.burger.tests.personalAccount;
+package stellar.burger;
 
 import io.qameta.allure.Step;
 import org.apache.commons.logging.Log;
@@ -6,7 +6,6 @@ import org.apache.commons.logging.LogFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import stellar.burger.AllTestsInit;
 import stellar.burgers.data.UserRegistrationData;
 import stellar.burgers.helpers.RandomValuesHelper;
 import stellar.burgers.pages.*;

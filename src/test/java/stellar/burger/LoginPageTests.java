@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import static com.codeborne.selenide.Selenide.page;
 
-public class LoginPageTest extends AllTestsInit {
+public class LoginPageTests extends AllTestsInit {
 
     public static final String SHORT_VALUE_FOR_PASSWORD_TEXT = "short";
     public static final String INCORRECT_PASSWORD_ERROR_MESSAGE = "Некорректный пароль";

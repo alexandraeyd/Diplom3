@@ -1,4 +1,4 @@
-package stellar.burger.tests.loginLogout;
+package stellar.burger;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
